@@ -124,7 +124,6 @@ class RTDFacetedSearch(FacetedSearch):
         * Adds HTML encoding of results to avoid XSS issues.
         """
         search = search.highlight_options(**self._highlight_options)
-        search = search.source(exclude=['content', 'headers'])
 
         all_queries = []
 
@@ -187,7 +186,7 @@ class PageSearchBase(RTDFacetedSearch):
         # we are only interested in the total count
         s = s.extra(size=0)
         s = s.execute()
-        return s.hits.total
+        return s.hits.total['value']
 
     def query(self, search, query):
         """Manipulates the query to support nested queries and a custom rank for pages."""
